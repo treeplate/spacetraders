@@ -56,38 +56,52 @@ class _GalaxyViewState extends State<GalaxyView> with TickerProviderStateMixin {
             onPressed: () {
               setState(() {
                 String rawStarID = textFieldController.text;
-                if (!rawStarID.startsWith('S')) {
-                  errorMessage =
-                      'Invalid star ID. All star IDs must start with S.';
-                  return;
-                }
-                int? integerStarID = int.tryParse(
-                  rawStarID.substring(1),
-                  radix: 16,
-                );
-                if (integerStarID == null) {
-                  errorMessage = 'Invalid star ID. All star IDs must be S followed by a hexadecimal integer.';
-                  return;
-                }
-                StarIdentifier starID = StarIdentifier.parse(integerStarID);
-                if (starID.category < 0) {
-                  errorMessage =
-                      'Invalid star ID. Star IDs cannot be negative.';
-                  return;
-                }
-                if (starID.category > 10) {
-                  errorMessage = 'Invalid star ID. The maximum star category (the first hexadecimal digit) is A.';
-                  return;
-                }
+                StarIdentifier starID;
                 if (widget.data.stars == null) {
                   errorMessage = 'Still loading stars. Try again later.';
                   return;
                 }
-                if (widget.data.stars![starID.category].length <=
-                    starID.subindex) {
-                  errorMessage =
-                      'Invalid star ID. The maximum value for the last five hexadecimal digits of a star with category ${starID.category} is ${(widget.data.stars![starID.category].length - 1).toRadixString(16)}.';
+                outer: if (!rawStarID.startsWith('S')) {
+                  int category = 0;
+                  while (category < widget.data.starSymbols!.length) {
+                    int index = 0;
+                    while (index < widget.data.starSymbols![category].length) {
+                      if (widget.data.starSymbols![category][index] ==
+                          rawStarID) {
+                        starID = StarIdentifier(category, index);
+                        break outer;
+                      }
+                      index++;
+                    }
+                    category++;
+                  }
+                  errorMessage = 'Could not find that star.';
                   return;
+                } else {
+                  int? integerStarID = int.tryParse(
+                    rawStarID.substring(1),
+                    radix: 16,
+                  );
+                  if (integerStarID == null) {
+                    errorMessage = 'Invalid star ID. All star IDs must be S followed by a hexadecimal integer.';
+                    return;
+                  }
+                  starID = StarIdentifier.parse(integerStarID);
+                  if (starID.category < 0) {
+                    errorMessage =
+                        'Invalid star ID. Star IDs cannot be negative.';
+                    return;
+                  }
+                  if (starID.category > 10) {
+                    errorMessage = 'Invalid star ID. The maximum star category (the first hexadecimal digit) is A.';
+                    return;
+                  }
+                  if (widget.data.stars![starID.category].length <=
+                      starID.subindex) {
+                    errorMessage =
+                        'Invalid star ID. The maximum value for the last five hexadecimal digits of a star with category ${starID.category} is ${(widget.data.stars![starID.category].length - 1).toRadixString(16)}.';
+                    return;
+                  }
                 }
                 errorMessage = null;
                 description = null;
