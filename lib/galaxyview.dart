@@ -48,7 +48,7 @@ class _GalaxyViewState extends State<GalaxyView> with TickerProviderStateMixin {
         Text(
           'Total stars: ${widget.data.stars!.fold(0, (a, b) => a + b.length)}',
         ),
-        Text('Lookup star by ID:'),
+        Text('Lookup star:'),
         SizedBox(width: 200, child: TextField(controller: textFieldController)),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -99,7 +99,7 @@ class _GalaxyViewState extends State<GalaxyView> with TickerProviderStateMixin {
                   if (widget.data.stars![starID.category].length <=
                       starID.subindex) {
                     errorMessage =
-                        'Invalid star ID. The maximum value for the last five hexadecimal digits of a star with category ${starID.category} is ${(widget.data.stars![starID.category].length - 1).toRadixString(16)}.';
+                        'Invalid star ID. The maximum value for the last five hexadecimal digits of a star with category ${starID.category} (${SystemType.values[starID.category].name}) is ${(widget.data.stars![starID.category].length - 1).toRadixString(16)}.';
                     return;
                   }
                 }
@@ -121,7 +121,7 @@ class _GalaxyViewState extends State<GalaxyView> with TickerProviderStateMixin {
                 ).then((e) {
                   setState(() {
                     description =
-                        '${e.name} (${e.symbol}, ${e.type.name}, (${e.x}, ${e.y}))';
+                        '${e.name} in the ${e.constellation} constellation (${starID.displayName}, ${e.symbol}, ${e.type.name}, (${e.x}, ${e.y}))';
                   });
                 });
               });
