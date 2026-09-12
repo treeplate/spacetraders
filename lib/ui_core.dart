@@ -1,4 +1,4 @@
-// copied from https://github.com/treeplate/isd_treeclient/blob/master/lib/ui-core.dart
+// modified from https://github.com/treeplate/isd_treeclient/blob/master/lib/ui-core.dart
 
 import 'dart:math';
 
@@ -176,7 +176,7 @@ class _ZoomableCustomPaintState extends State<ZoomableCustomPaint> {
                 setState(() {
                   if (details.pointerCount > 1 && details.scale == 1) {
                     // to work around trackpad two-finger scroll being interpreted as a pan instead of a scale
-                    handleZoom(details.focalPointDelta.dy < 0 ? 1 / 1.5 : 1.5);
+                    handleZoom(pow(1.01, details.focalPointDelta.dy).toDouble());
                   } else {
                     handlePan(details.focalPointDelta, constraints);
                     double scaleMultiplicativeDelta =
