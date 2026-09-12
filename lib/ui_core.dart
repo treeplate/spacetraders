@@ -261,19 +261,19 @@ final List<Paint> starCategories = [
   Paint() // NEUTRON_STAR
     ..color = Color(0xff00ccff)
     ..strokeWidth = 0.001,
-  Paint() // RED_STAR (ISD category 2)
+  Paint() // RED_STAR
     ..color = Color(0xDFFF0000)
     ..strokeWidth = 0.005,
-  Paint() // ORANGE_STAR (ISD category 3)
+  Paint() // ORANGE_STAR
     ..color = Color(0xCFFF9900)
     ..strokeWidth = 0.005,
-  Paint() // BLUE_STAR (ISD category 6)
-    ..color = Color(0x2F0099FF)
+  Paint() // BLUE_STAR
+    ..color = Color(0xff00ccff)
     ..strokeWidth = 0.005,
   Paint() // YOUNG_STAR
     ..color = Color(0xBFdddddd)
     ..strokeWidth = 0.003,
-  Paint() // WHITE_DWARF (ISD category 5)
+  Paint() // WHITE_DWARF
     ..color = Color(0xAFFFFFFF)
     ..strokeWidth = 0.001,
   Paint() // BLACK_HOLE

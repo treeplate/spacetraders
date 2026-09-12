@@ -26,6 +26,16 @@ class _GalaxyViewState extends State<GalaxyView> with TickerProviderStateMixin {
   ZoomController? galaxyZoomController;
 
   @override
+  void initState() {
+    super.initState();
+    galaxyZoomController ??= ZoomController(
+      vsync: this,
+      zoom: 1,
+      screenCenter: Offset(0.5, 0.5),
+    );
+  }
+
+  @override
   void dispose() {
     galaxyZoomController?.dispose();
     super.dispose();
@@ -110,11 +120,6 @@ class _GalaxyViewState extends State<GalaxyView> with TickerProviderStateMixin {
             setState(() {
               errorMessage = null;
               description = null;
-              galaxyZoomController ??= ZoomController(
-                vsync: this,
-                zoom: 1,
-                screenCenter: Offset(0.5, 0.5),
-              );
               galaxyZoomController!.animateTo(1, Offset(.5, .5));
             });
           },
